@@ -92,7 +92,7 @@ services:
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
-
+      
       # Configuração de Consenso e API:
       - --rpc-http-enabled=true
       - --rpc-http-host=0.0.0.0
