@@ -25,16 +25,23 @@ The main resources prone to overload can be divided into 3 categories:
 - **CPU** 
 - **Memory**
 - **I/O**
+- **Gas Limit**
 
 High latency in these can disrupt container operations, leading to consensus failures or container shutdowns. Immediate corrective action is to restart the affected container.
 
 ### Effects on Containers and Logs
 
-1. **Latency/CPU Overload**:  Logs show "RoundTimer | Moved to round X which will expire in..." messages. The node fails to sign and vote timely, causing continuous consensus failures while remaining operational but ineffective.
+1. **Transaction Overload**: When a massive sequence of transactions is made to the network, it can be overloaded in two differente ways:
+    - ***Gas Limit Saturation***: The network has a gas limit per block (defined in the genesis.json file). If the demand for transactions exceeds what the validators can process within the block mining time, the mempool becomes overloaded and new transactions get slow or rejected. 
 
-2. **Memory Overload (OOM)**: Container is terminated by Docker/Kernel. Docker logs display "OOMKilled" error. Node stops functioning and requires restart.
+    - ***CPU Overload***: Described bellow.
 
-3. **I/O Overload (Disk)**: Logs show "WARN | RocksDB | Operation timed out". Slow disk writes delay voting, leading to consensus failures similar to latency issues.
+2. **Latency/CPU Overload**:  Logs show "RoundTimer | Moved to round X which will expire in..." messages. The node fails to sign and vote timely, causing continuous consensus failures while remaining operational but ineffective.
+
+3. **Memory Overload (OOM)**: Container is terminated by Docker/Kernel. Docker logs display "OOMKilled" error. Node stops functioning and requires restart.
+
+4. **I/O Overload (Disk)**: Logs show "WARN | RocksDB | Operation timed out". Slow disk writes delay voting, leading to consensus failures similar to latency issues.
+
 
 ## Mitigation with Kubernetes
 
