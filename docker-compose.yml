@@ -7,20 +7,20 @@ services:
       - "30303:30303" # P2P
     networks:
       besu_net:
-        ipv4_address: 172.20.0.2
+        ipv4_address: 172.21.0.2
     volumes:
       # 1. Mapeamento do Genesis File (caminho relativo à raiz do projeto)
-      - ./genesis.json:/config/genesis.json
+      - ./besu-network/config/genesis.json:/config/genesis.json
       # 2. Mapeamento da Chave Privada (caminho específico para node-1)
-      - ./node-1/data/key:/config/node.key
+      - ./besu-network/node-1/data/key:/config/node.key
       # 3. Mapeamento da Pasta de Dados da Blockchain
-      - ./data/node-1:/var/lib/besu/data
+      - ./besu-network/node-1/data:/var/lib/besu/data
     command:
       # Caminhos internos usados dentro do contêiner:
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
-      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.20.0.2:30303
+      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.21.0.2:30303
 
       # Configuração de Consenso e API:
       - --rpc-http-enabled=true
@@ -42,21 +42,21 @@ services:
       - "30304:30303" # P2P
     networks:
       besu_net:
-        ipv4_address: 172.20.0.3
+        ipv4_address: 172.21.0.3
     volumes:
       # 1. Mapeamento do Genesis File (caminho relativo à raiz do projeto)
-      - ./genesis.json:/config/genesis.json
+      - ./besu-network/config/genesis.json:/config/genesis.json
       # 2. Mapeamento da Chave Privada (caminho específico para node-2)
-      - ./node-2/data/key:/config/node.key
+      - ./besu-network/node-2/data/key:/config/node.key
       # 3. Mapeamento da Pasta de Dados da Blockchain
-      - ./data/node-2:/var/lib/besu/data
+      - ./besu-network/node-2/data:/var/lib/besu/data
     command:
       # Caminhos internos usados dentro do contêiner:
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
-      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.20.0.2:30303
-      
+      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.21.0.2:30303
+
 
       # Configuração de Consenso e API:
       - --rpc-http-enabled=true
@@ -78,21 +78,21 @@ services:
       - "30305:30303" # P2P
     networks:
       besu_net:
-        ipv4_address: 172.20.0.4
+        ipv4_address: 172.21.0.4
     volumes:
       # 1. Mapeamento do Genesis File (caminho relativo à raiz do projeto)
-      - ./genesis.json:/config/genesis.json
+      - ./besu-network/config/genesis.json:/config/genesis.json
       # 2. Mapeamento da Chave Privada (caminho específico para node-3)
-      - ./node-3/data/key:/config/node.key
+      - ./besu-network/node-3/data/key:/config/node.key
       # 3. Mapeamento da Pasta de Dados da Blockchain
-      - ./data/node-3:/var/lib/besu/data
+      - ./besu-network/node-3/data:/var/lib/besu/data
     command:
       # Caminhos internos usados dentro do contêiner:
-      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.20.0.2:30303
+      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.21.0.2:30303
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
-      
+
       # Configuração de Consenso e API:
       - --rpc-http-enabled=true
       - --rpc-http-host=0.0.0.0
@@ -104,7 +104,7 @@ services:
       - --host-allowlist="*"
       - --profile=ENTERPRISE
     restart: always
-    
+
   node-4:
     container_name: besu-node-4
     image: hyperledger/besu:latest
@@ -113,17 +113,17 @@ services:
       - "30306:30303" # P2P
     networks:
       besu_net:
-        ipv4_address: 172.20.0.5
+        ipv4_address: 172.21.0.5
     volumes:
       # 1. Mapeamento do Genesis File (caminho relativo à raiz do projeto)
-      - ./genesis.json:/config/genesis.json
+      - ./besu-network/config/genesis.json:/config/genesis.json
       # 2. Mapeamento da Chave Privada (caminho específico para node-4)
-      - ./node-4/data/key:/config/node.key
+      - ./besu-network/node-4/data/key:/config/node.key
       # 3. Mapeamento da Pasta de Dados da Blockchain
-      - ./data/node-4:/var/lib/besu/data
+      - ./besu-network/node-4/data:/var/lib/besu/data
     command:
       # Caminhos internos usados dentro do contêiner:
-      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.20.0.2:30303
+      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.21.0.2:30303
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
@@ -145,4 +145,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.20.0.0/16
+        - subnet: 172.21.0.0/16
