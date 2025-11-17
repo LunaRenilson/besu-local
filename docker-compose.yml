@@ -7,7 +7,7 @@ services:
       - "30303:30303" # P2P
     networks:
       besu_net:
-        ipv4_address: 172.21.0.2
+        ipv4_address: 172.22.0.2
     volumes:
       # 1. Mapeamento do Genesis File (caminho relativo à raiz do projeto)
       - ./besu-network/config/genesis.json:/config/genesis.json
@@ -20,7 +20,7 @@ services:
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
-      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.21.0.2:30303
+      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.22.0.2:30303
 
       # Configuração de Consenso e API:
       - --rpc-http-enabled=true
@@ -42,7 +42,7 @@ services:
       - "30304:30303" # P2P
     networks:
       besu_net:
-        ipv4_address: 172.21.0.3
+        ipv4_address: 172.22.0.3
     volumes:
       # 1. Mapeamento do Genesis File (caminho relativo à raiz do projeto)
       - ./besu-network/config/genesis.json:/config/genesis.json
@@ -55,7 +55,7 @@ services:
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
-      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.21.0.2:30303
+      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.22.0.2:30303
 
 
       # Configuração de Consenso e API:
@@ -78,7 +78,7 @@ services:
       - "30305:30303" # P2P
     networks:
       besu_net:
-        ipv4_address: 172.21.0.4
+        ipv4_address: 172.22.0.4
     volumes:
       # 1. Mapeamento do Genesis File (caminho relativo à raiz do projeto)
       - ./besu-network/config/genesis.json:/config/genesis.json
@@ -88,7 +88,7 @@ services:
       - ./besu-network/node-3/data:/var/lib/besu/data
     command:
       # Caminhos internos usados dentro do contêiner:
-      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.21.0.2:30303
+      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.22.0.2:30303
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
@@ -113,7 +113,7 @@ services:
       - "30306:30303" # P2P
     networks:
       besu_net:
-        ipv4_address: 172.21.0.5
+        ipv4_address: 172.22.0.5
     volumes:
       # 1. Mapeamento do Genesis File (caminho relativo à raiz do projeto)
       - ./besu-network/config/genesis.json:/config/genesis.json
@@ -123,7 +123,7 @@ services:
       - ./besu-network/node-4/data:/var/lib/besu/data
     command:
       # Caminhos internos usados dentro do contêiner:
-      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.21.0.2:30303
+      - --bootnodes=enode://46c385f677dbc3a952520b91249be74d555620e95ee74e1e9b507779c0ac006e04be66151724d5b0a257cb476ddeffb456b47d635d94b297b46ef5c1b96617e6@172.22.0.2:30303
       - --data-path=/var/lib/besu/data
       - --genesis-file=/config/genesis.json
       - --node-private-key-file=/config/node.key # Usa a chave mapeada
@@ -140,9 +140,20 @@ services:
       - --profile=ENTERPRISE
     restart: always
 
+  # Memory, CPU and I/O stress testing service
+  stress-ng:
+    container_name: stress-tester
+    image: polinux/stress-ng:latest
+    command: ["--cpu", "4", "--io", "2", "--vm", "2", "--vm-bytes", "128M", "--timeout", "300s"]
+    restart: "no"
+    networks:
+      besu_net:
+        ipv4_address: 172.22.0.6
+
+
 networks:
   besu_net:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.21.0.0/16
+        - subnet: 172.22.0.0/16
